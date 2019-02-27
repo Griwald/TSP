@@ -2,26 +2,26 @@
 //
 
 #include "pch.h"
-#include "Vect2.h"
-#include <stdlib.h> // srand, rand
-#include <time.h>   // time
+#include "City.h"
 #include <iostream>
 #include <vector>	// vector
+#include <climits>  // UINT_MAX
+#include <stdlib.h> // srand, rand
+#include <time.h>   // time
 #include <utility>	// swap, reverse
 #include <chrono>
-#include <ctime>
 
 using namespace std;
 
 
 /* Retourne la distance totale entre les villes parcourues dans l'ordre donné */
-int calcTotalDist(vector<Vect2> cities, vector<int> order)
+int calcTotalDist(vector<City> cities, vector<int> order)
 {
 	int totalDist = 0;
 	for (int i = 0; i < order.size() - 1; i++) {
-		Vect2 cityA = cities[order[i]];
-		Vect2 cityB = cities[order[i + 1]];
-		totalDist += Vect2::distSq(cityA, cityB);
+		City cityA = cities[order[i]];
+		City cityB = cities[order[i + 1]];
+		totalDist += City::distSq(cityA, cityB);
 	}
 	return totalDist;
 }
@@ -29,29 +29,40 @@ int calcTotalDist(vector<Vect2> cities, vector<int> order)
 
 int main()
 {
-	int width = 500;
-	int height = 500;
-	int nbOfCities = 9;
+	int width = 500;	// Largeur de l'espace de placement des villes
+	int height = 500;	// Hauteur de l'espace de placement des villes
+	int nbOfCities = 5; // Nombre de villes placees dans l'espace
 
-	vector<Vect2> cities;
-	vector<int> order;
+	vector<City> cities; // Structure qui contient les villes
+	vector<int> order;	 // Structure qui contient l'ordre de parcours des villes
 
 
 	// ================================================================================
 	// INITIALISATION 
 	// ================================================================================ 
 
+	// Initialisation du germe de generation aleatoire
 	srand(time(NULL));
 
+	// Création des villes
 	for (int i = 0; i < nbOfCities; i++) {
 		int posX = rand() % width;
 		int posY = rand() % height;
-		cities.push_back(Vect2(posX, posY));
+		cities.push_back(City(i, posX, posY));
 
+		// Remplissage de la stucture d'ordre de parcours
 		order.push_back(i);
 	}
 
-	int bestDist = calcTotalDist(cities, order);
+	// Affichage de la position des villes
+	cout << "Position des villes :" << endl;
+	for (City &city : cities) {
+		cout << city << endl;
+	}
+	cout << endl;
+
+	// Initialisation de la meilleure distance de parcours et du meilleur ordre
+	unsigned int bestDist = UINT_MAX;
 	vector<int> bestOrder = order;
 
 
@@ -59,13 +70,14 @@ int main()
 	// PARCOURS DU GRAPHE 
 	// ================================================================================ 
 
+	// Début du chronometre
 	auto start = chrono::system_clock::now();
 
 	bool finished = false;
 	while (!finished) {
 
 		// Astuce pour ne pas considérer les permutations qui donnent un ordre "inverse"
-		// ex: ne pas considérer {3,2,1} qui traite le même chemin que 1,2,3}
+		// ex: ne pas considérer {3,2,1} qui traite le même chemin que {1,2,3}
 		if (order[0] < order[order.size() - 1]) {
 			// On calcule la distance de parcours total avec l'ordre actuel
 			int dist = calcTotalDist(cities, order);
@@ -113,12 +125,6 @@ int main()
 	// AFFICHAGE DU RESULTAT 
 	// ================================================================================ 
 
-	cout << "Position des villes :" << endl;
-	for (Vect2 &city : cities) {
-		cout << city << endl;
-	}
-	cout << endl;
-
 	cout << "Meilleur ordre de parcours :" << endl;
 	for (int &index : bestOrder) {
 		cout << index << " ";
@@ -130,7 +136,6 @@ int main()
 
 	auto end = chrono::system_clock::now();
 	chrono::duration<double> elapsed_seconds = end - start;
-	time_t end_time = chrono::system_clock::to_time_t(end);
 	cout << "Duree du programme : " << elapsed_seconds.count() << "s" << endl;
 
 
