@@ -3,19 +3,19 @@
 
 #include "pch.h"
 #include "City.h"
-#include <iostream>
-#include <vector>	// vector
+#include <iostream> // std::cout 
+#include <vector>	// std::vector
+#include <utility>	// std::swap, std::reverse
+#include <cstdlib>  // std::rand, std::srand
+#include <ctime>    // std::time
+#include <chrono>	// std::chrono::
 #include <climits>  // UINT_MAX
-#include <stdlib.h> // srand, rand
-#include <time.h>   // time
-#include <utility>	// swap, reverse
-#include <chrono>
 
 using namespace std;
 
 
 /* Retourne la distance totale entre les villes parcourues dans l'ordre donné */
-int calcTotalDist(vector<City> cities, vector<int> order)
+int calcTotalDist(vector<City>& cities, vector<int>& order)
 {
 	int totalDist = 0;
 	for (int i = 0; i < order.size() - 1; i++) {
@@ -29,12 +29,12 @@ int calcTotalDist(vector<City> cities, vector<int> order)
 
 int main()
 {
-	int width = 500;	// Largeur de l'espace de placement des villes
-	int height = 500;	// Hauteur de l'espace de placement des villes
-	int nbOfCities = 5; // Nombre de villes placees dans l'espace
+	int width = 200;	// Largeur de l'espace de placement des villes
+	int height = 200;	// Hauteur de l'espace de placement des villes
+	int nbOfCities = 7; // Nombre de villes placees dans l'espace
 
-	vector<City> cities; // Structure qui contient les villes
-	vector<int> order;	 // Structure qui contient l'ordre de parcours des villes
+	vector<City> cities(nbOfCities); // Structure qui contient les villes
+	vector<int> order(nbOfCities);	 // Structure qui contient l'ordre de parcours des villes
 
 
 	// ================================================================================
@@ -48,11 +48,15 @@ int main()
 	for (int i = 0; i < nbOfCities; i++) {
 		int posX = rand() % width;
 		int posY = rand() % height;
-		cities.push_back(City(i, posX, posY));
+		cities[i] = City(i, posX, posY);
 
 		// Remplissage de la stucture d'ordre de parcours
-		order.push_back(i);
+		order[i] = i;
 	}
+
+	// Initialisation de la meilleure distance de parcours et du meilleur ordre
+	unsigned int bestDist = UINT_MAX;
+	vector<int> bestOrder = order;
 
 	// Affichage de la position des villes
 	cout << "Position des villes :" << endl;
@@ -60,10 +64,6 @@ int main()
 		cout << city << endl;
 	}
 	cout << endl;
-
-	// Initialisation de la meilleure distance de parcours et du meilleur ordre
-	unsigned int bestDist = UINT_MAX;
-	vector<int> bestOrder = order;
 
 
 	// ================================================================================
