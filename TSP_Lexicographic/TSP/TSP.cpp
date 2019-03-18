@@ -14,7 +14,9 @@
 using namespace std;
 
 
-/* Retourne la distance totale entre les villes parcourues dans l'ordre donné */
+/* Fonction objectif : 
+ * Retourne la distance totale entre les villes parcourues dans l'ordre donné 
+ */
 int calcTotalDist(vector<City>& cities, vector<int>& order)
 {
 	int totalDist = 0;
@@ -31,7 +33,7 @@ int main()
 {
 	int width = 200;	// Largeur de l'espace de placement des villes
 	int height = 200;	// Hauteur de l'espace de placement des villes
-	int nbOfCities = 7; // Nombre de villes placees dans l'espace
+	int nbOfCities = 7; // Nombre de villes placées dans l'espace
 
 	vector<City> cities(nbOfCities); // Structure qui contient les villes
 	vector<int> order(nbOfCities);	 // Structure qui contient l'ordre de parcours des villes
@@ -41,7 +43,7 @@ int main()
 	// INITIALISATION 
 	// ================================================================================ 
 
-	// Initialisation du germe de generation aleatoire
+	// Initialisation du germe de géneration aléatoire
 	srand(time(NULL));
 
 	// Création des villes
@@ -70,7 +72,7 @@ int main()
 	// PARCOURS DU GRAPHE 
 	// ================================================================================ 
 
-	// Début du chronometre
+	// Début du chronomètre
 	auto start = chrono::system_clock::now();
 
 	bool finished = false;
@@ -101,7 +103,7 @@ int main()
 			}
 		}
 		if (largestI == -1) {
-			// On a terminé de parcourir tous les ordres possibles
+			// On a termine de parcourir tous les ordres possibles
 			finished = true;
 			break;
 		}
@@ -120,21 +122,25 @@ int main()
 		reverse(order.begin() + size, order.end());
 	}
 
+	// Fin du chronomètre
+	auto end = chrono::system_clock::now();
+
 
 	// ================================================================================
 	// AFFICHAGE DU RESULTAT 
 	// ================================================================================ 
 
+	// Affichage du meilleur ordre de parcours
 	cout << "Meilleur ordre de parcours :" << endl;
 	for (int &index : bestOrder) {
 		cout << index << " ";
 	}
 	cout << endl << endl;
 
+	// Affichage de la meilleure distance
 	cout << "Distance parcourue pour cet ordre (au carre) : " << bestDist << endl;
 
-
-	auto end = chrono::system_clock::now();
+	// Affichage de la durée d'exécution
 	chrono::duration<double> elapsed_seconds = end - start;
 	cout << "Duree du programme : " << elapsed_seconds.count() << "s" << endl;
 

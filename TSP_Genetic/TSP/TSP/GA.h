@@ -4,7 +4,9 @@
 #include <cmath> // pow
 
 
-/* Retourne la distance totale entre les villes parcourues dans l'ordre donne */
+/* Fonction objectif :
+ * Retourne la distance totale entre les villes parcourues dans l'ordre donné
+ */
 int calcTotalDist(std::vector<City>& cities, std::vector<int>& order);
 
 
@@ -14,5 +16,5 @@ void calcFitness(std::vector<DNA>& population);
 /* Normalise les valeurs de fitness */
 void normalizeFitness(std::vector<DNA>& population);
 
-/* Cree la nouvelle generation a partir des meilleurs elements de la precedente */
+/* Crée la nouvelle génération à partir des meilleurs élements de la précédente */
 void nextGeneration(std::vector<DNA>& population);

@@ -22,11 +22,11 @@ vector<City> cities;
 
 int main()
 {
-	const int width = 200;			// Largeur de l'espace de placement des villes
-	const int height = 200;			// Hauteur de l'espace de placement des villes
-	const int nbOfCities = 20;		// Nombre de villes placees dans l'espace
-	const int nbOfPopulation = 500; // Taille de la population
-	const int nbOfGeneration = 1;	// Nombre de generation
+	const int width = 200;			 // Largeur de l'espace de placement des villes
+	const int height = 200;			 // Hauteur de l'espace de placement des villes
+	const int nbOfCities = 20;		 // Nombre de villes placées dans l'espace
+	const int nbOfPopulation = 200;	 // Taille de la population
+	const int nbOfGenerations = 50;	 // Nombre de générations
 
 	vector<DNA> population; // Structure qui contient la population
 
@@ -35,7 +35,7 @@ int main()
 	// INITIALISATION 
 	// ================================================================================ 
 
-	// Initialisation du germe de generation aleatoire
+	// Initialisation du germe de génération aléatoire
 	srand(time(NULL));
 
 
@@ -54,9 +54,9 @@ int main()
 	unsigned int bestDist = UINT_MAX;
 	vector<int> bestOrder = order;
 
-	// Creation de la population
+	// Création de la population
 	for (int i = 0; i < nbOfPopulation; i++) {
-		// Ordre de parcours aleatoire pour la population
+		// Ordre de parcours aléatoire pour la population
 		vector<int> shuffleOrder(order);
 		random_shuffle(shuffleOrder.begin(), shuffleOrder.end());
 
@@ -77,13 +77,13 @@ int main()
 	// ALGORITHMES GENETIQUES 
 	// ================================================================================ 
 
-	// Début du chronometre
+	// Début du chronomètre
 	auto start = chrono::system_clock::now();
 
 	int count = 0;
-	while (count != nbOfGeneration) {
+	while (count != nbOfGenerations) {
 
-		// Application des algorithmes genetiques
+		// Application des algorithmes génétiques
 		calcFitness(population);
 		normalizeFitness(population);
 		nextGeneration(population);
@@ -95,27 +95,33 @@ int main()
 			if (dist < bestDist) {
 				bestDist = dist;
 				bestOrder = currentOrder;
+				cout << "now" << endl;
 			}
 		}
+		cout << count << endl;
 
 		count++;
 	}
+
+	// Fin du chronomètre
+	auto end = chrono::system_clock::now();
 
 
 	// ================================================================================
 	// AFFICHAGE DU RESULTAT 
 	// ================================================================================ 
 
+	// Affichage du meilleur ordre de parcours
 	cout << "Meilleur ordre de parcours :" << endl;
 	for (int &index : bestOrder) {
 		cout << index << " ";
 	}
 	cout << endl << endl;
 
+	// Affichage de la meilleure distance
 	cout << "Distance parcourue pour cet ordre (au carre) : " << bestDist << endl;
 
-
-	auto end = chrono::system_clock::now();
+	// Affichage de la durée d'exécution
 	chrono::duration<double> elapsed_seconds = end - start;
 	cout << "Duree du programme : " << elapsed_seconds.count() << "s" << endl;
 

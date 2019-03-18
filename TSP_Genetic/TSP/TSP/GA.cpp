@@ -18,15 +18,15 @@ int calcTotalDist(vector<City>& cities, vector<int>& order)
 
 vector<int> pickBest(vector<DNA>& population)
 {
-	int index = 0;
+	// Valeur aléatoire entre 0 et 1
 	double r = ((double)rand() / (RAND_MAX));
 
+	int index = 0;
 	while (r > 0.0) {
 		r -= population[index].fitness;
 		index++;
 	}
-	index--;
-	return population[index].order;
+	return population[index-1].order;
 }
 
 vector<int> crossover(vector<int>& orderA, vector<int>& orderB)
