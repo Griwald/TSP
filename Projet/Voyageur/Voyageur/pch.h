@@ -9,6 +9,15 @@
 #ifndef PCH_H
 #define PCH_H
 
+#include <iostream> // std::cout 
+#include <vector>	// std::vector
+#include <utility>	// std::swap, std::reverse
+#include <cstdlib>  // std::rand, std::srand
+#include <ctime>    // std::time
+#include <chrono>	// std::chrono::
+#include <climits>  // UINT_MAX
+
+#include <SFML/Graphics.hpp> // sf::librairie graphique SFML
 // TODO: Ajoutez les en-têtes à précompiler ici
 
 #endif //PCH_H

@@ -1,19 +1,11 @@
 // TSP.cpp : Ce fichier contient la fonction 'main'. L'exécution du programme commence et se termine à cet endroit.
 //
 
-#include <SFML/Graphics.hpp> // sf::librairie graphique SFML
 #include "pch.h"
 #include "City.h"
-#include <iostream> // std::cout 
-#include <vector>	// std::vector
-#include <utility>	// std::swap, std::reverse
-#include <cstdlib>  // std::rand, std::srand
-#include <ctime>    // std::time
-#include <chrono>	// std::chrono::
-#include <climits>  // UINT_MAX
+#include "SfmlWindow.h"
 
 using namespace std;
-using namespace sf;
 
 
 /* Fonction objectif :
@@ -146,6 +138,12 @@ int main()
 	chrono::duration<double> elapsed_seconds = end - start;
 	cout << "Duree du programme : " << elapsed_seconds.count() << "s" << endl;
 
-	//while (true);
+	SfmlWindow mainWindow;
+
+	mainWindow.createWindow();
+	//mainWindow.drawCity(cities);
+	mainWindow.showWindow();
+
+	cout << "Fin de programme " << endl;
 	return 0;
 }
