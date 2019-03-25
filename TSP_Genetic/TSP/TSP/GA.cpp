@@ -22,9 +22,12 @@ vector<int> pickBest(vector<DNA>& population)
 	double r = ((double)rand() / (RAND_MAX));
 
 	int index = 0;
-	while (r > 0.0) {
+	while (r >= 0.0) {
 		r -= population[index].fitness;
 		index++;
+		if (index == population.size()) {
+			break;
+		}
 	}
 	return population[index-1].order;
 }
