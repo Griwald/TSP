@@ -22,7 +22,7 @@ vector<int> pickOne(vector<DNA>& population)
 	double r = ((double)rand() / (RAND_MAX));
 
 	int index = 0;
-	while (r > 0.0) {
+	while (r >= 0.0 && index != population.size()) {
 		r -= population[index].fitness;
 		index++;
 	}
