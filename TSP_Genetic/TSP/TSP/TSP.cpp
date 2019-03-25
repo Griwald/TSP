@@ -95,10 +95,8 @@ int main()
 			if (dist < bestDist) {
 				bestDist = dist;
 				bestOrder = currentOrder;
-				cout << "now" << endl;
 			}
 		}
-		cout << count << endl;
 
 		count++;
 	}
