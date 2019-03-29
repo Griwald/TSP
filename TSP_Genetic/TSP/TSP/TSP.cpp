@@ -84,7 +84,7 @@ int main()
 	while (count != nbOfGenerations) {
 
 		// Application des algorithmes génétiques
-		calcFitness(population);
+		calculateFitness(population);
 		normalizeFitness(population);
 		nextGeneration(population);
 

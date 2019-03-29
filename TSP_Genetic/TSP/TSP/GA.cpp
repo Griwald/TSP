@@ -16,7 +16,7 @@ int calcTotalDist(vector<City>& cities, vector<int>& order)
 }
 
 
-vector<int> pickOne(vector<DNA>& population)
+vector<int> select(vector<DNA>& population)
 {
 	// Valeur aléatoire entre 0 et 1
 	double r = ((double)rand() / (RAND_MAX));
@@ -75,7 +75,7 @@ void mutate(vector<int>& order, double mutationRate)
 }
 
 
-void calcFitness(vector<DNA>& population)
+void calculateFitness(vector<DNA>& population)
 {
 	// Pour chaque population, ...
 	for (int i = 0; i < population.size(); i++) {
@@ -86,21 +86,21 @@ void calcFitness(vector<DNA>& population)
 		// ... puis on affecte à la popuplation une valeur de fitness sera inversement 
 		// proportionnelle à la distance, et la mise à la puissance élévée permet 
 		// d'affecter une valeur de fitness très faible aux distances de parcours élévée
-		// qui auront moins de chances d'être séléctionnées dans la méthode pickOne()
+		// qui auront moins de chances d'être séléctionnées dans la méthode select()
 		population[i].fitness = 1.0 / (pow(dist, 8) + 1);
 	}
 }
 
 void normalizeFitness(vector<DNA>& population)
 {
-	// Calcul de la somme totale des fitness
+	// Calcul de la somme totale des valeurs de fitness
 	double sum = 0.0;
 	for (int i = 0; i < population.size(); i++) {
 		sum += population[i].fitness;
 	}
 
 	for (int i = 0; i < population.size(); i++) {
-		// Chaque fitness à sa valeur entre 0 et 1 et leur somme s'ajoute jusqu'à 1
+		// Chaque valeur de fitness est entre 0 et 1 et leur somme s'ajoute jusqu'à 1
 		population[i].fitness /= sum;
 	}
 }
@@ -113,9 +113,9 @@ void nextGeneration(vector<DNA>& population)
 	// Pour chaque population, ...
 	for (int i = 0; i < population.size(); i++) {
 		// ... on récupère deux ordres, ...
-		vector<int> orderA = pickOne(population);
-		vector<int> orderB = pickOne(population);
-		// ... on les combine, ...
+		vector<int> orderA = select(population);
+		vector<int> orderB = select(population);
+		// ... on les combine en un nouveau, ...
 		vector<int> order = crossover(orderA, orderB);
 		// ... puis on tente de le muter
 		mutate(order, 0.01);

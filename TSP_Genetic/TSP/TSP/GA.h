@@ -11,7 +11,7 @@ int calcTotalDist(std::vector<City>& cities, std::vector<int>& order);
 
 
 /* Calcule les valeurs de fitness */
-void calcFitness(std::vector<DNA>& population);
+void calculateFitness(std::vector<DNA>& population);
 
 /* Normalise les valeurs de fitness */
 void normalizeFitness(std::vector<DNA>& population);
