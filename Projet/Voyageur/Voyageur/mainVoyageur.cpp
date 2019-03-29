@@ -141,7 +141,7 @@ int main()
 	SfmlWindow mainWindow;
 
 	mainWindow.createWindow();
-	//mainWindow.drawCity(cities);
+	mainWindow.drawCity(cities , bestOrder);
 	mainWindow.showWindow();
 
 	cout << "Fin de programme " << endl;

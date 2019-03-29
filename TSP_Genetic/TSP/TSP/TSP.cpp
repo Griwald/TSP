@@ -38,7 +38,7 @@ int main()
 {
 	const int width = 200;			 // Largeur de l'espace de placement des villes
 	const int height = 200;			 // Hauteur de l'espace de placement des villes
-	const int nbOfCities = 7;		 // Nombre de villes placées dans l'espace
+	const int nbOfCities = 10;		 // Nombre de villes placées dans l'espace
 	const int nbOfPopulation = 200;	 // Taille de la population
 	const int nbOfGenerations = 50;	 // Nombre de générations
 

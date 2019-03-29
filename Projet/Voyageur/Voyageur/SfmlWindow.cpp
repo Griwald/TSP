@@ -6,7 +6,7 @@ using namespace sf;
 
 void SfmlWindow::createWindow()
 {
-	this->window.create(VideoMode(this->windowHeight, this->windowWidth), "Voyageur de commerce");
+	this->window.create(VideoMode(this->windowWidth, this->windowHeight), "Voyageur de commerce");
 }
 
 void SfmlWindow::showWindow()
@@ -21,39 +21,85 @@ void SfmlWindow::showWindow()
 		}
 
 		//this->window.clear();
-		/*for (int i = 0; i < this->shapes.size(); i++) {
+
+		// draw les cercles pour les villes
+		for (int i = 0; i < this->shapes.size(); i++) {
 			this->window.draw(shapes[i]);
-		}*/
+		}
+
+		// draw les lignes
+		for (int i = 0; i < this->shapes.size()-1; i++) {
+
+			//this->shapes[(this->order[i])].getPosition().x;
+			float posP1x = this->shapes[(this->order[i])].getPosition().x;
+			float posP1y = this->shapes[(this->order[i])].getPosition().y;
+			float posP2x = this->shapes[(this->order[i+1])].getPosition().x;
+			float posP2y = this->shapes[(this->order[i+1])].getPosition().y;
+
+			sf::Vertex line[] =
+			{
+				sf::Vertex(sf::Vector2f(posP1x, posP1y)),
+				sf::Vertex(sf::Vector2f(posP2x , posP2y))
+			};
+			
+			if (i == 0) {
+				line->color = Color::Red;
+			}
+			else {
+				line->color = Color::White;
+			}
+
+			window.draw(line, 2, sf::Lines);
+		}
+
+		
 		//this->window.draw(shape);
+
 		this->window.display();
 	}
 }
 
-void SfmlWindow::drawCity(vector<City> cities)
+void SfmlWindow::drawCity(vector<City> &cities, vector<int> order)
 {
-	float circleSize = 1.f;
+	float maxCityWidth = 200.f;
+	float maxCityHeight = 200.0f;
+
+	this->order = order;
+
 	//CircleShape shapes 
 	this->window.clear();
+
 	for (int i = 0; i < cities.size(); i++) {
+
 		cout << cities[i] << endl;
-		CircleShape newShape(circleSize);
+
+		CircleShape newShape(this->circleSize);
 		newShape.setFillColor(Color::White);
-		newShape.setPosition(i * 5, i * 5);
-		this->shapes[i] = newShape;
-		
+
+		float newX = ((cities[i].posX * this->canvasWidth) / maxCityWidth) + 10 ;
+		float newY = ((cities[i].posY * this->canvasHeight) / maxCityHeight) + 10;
+		newShape.setPosition(newX, newY);
+
+		this->shapes.push_back(newShape);
 	}
 }
 
 SfmlWindow::SfmlWindow()
 {
-	this->windowHeight = 960;
-	this->windowWidth = 540;
+	this->windowWidth = 960;
+	this->windowHeight = 540;
+
+	this->canvasHeight = this->windowHeight - 20;
+	this->canvasWidth = this->windowWidth - 20;
 }
 
 SfmlWindow::SfmlWindow(int height, int width)
 {
 	this->windowHeight = height;
 	this->windowWidth = width;
+
+	this->canvasHeight = this->windowHeight - 20;
+	this->canvasWidth = this->windowWidth - 20;
 }
 
 
