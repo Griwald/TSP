@@ -98,7 +98,7 @@ int main()
 	while (count != nbOfGenerations) {
 
 		// Application des algorithmes génétiques
-		calcFitness(population);
+		calculateFitness(population);
 		normalizeFitness(population);
 		nextGeneration(population);
 
@@ -109,10 +109,8 @@ int main()
 			if (dist < bestDist) {
 				bestDist = dist;
 				bestOrder = currentOrder;
-				cout << "now" << endl;
 			}
 		}
-		cout << count << endl;
 
 		count++;
 	}
