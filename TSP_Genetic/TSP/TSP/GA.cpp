@@ -16,7 +16,7 @@ int calcTotalDist(vector<City>& cities, vector<int>& order)
 }
 
 
-vector<int> select(vector<DNA>& population)
+vector<int> selection(vector<DNA>& population)
 {
 	// Valeur aléatoire entre 0 et 1
 	double r = ((double)rand() / (RAND_MAX));
@@ -56,7 +56,7 @@ vector<int> crossover(vector<int>& orderA, vector<int>& orderB)
 	return newOrder;
 }
 
-void mutate(vector<int>& order, double mutationRate)
+void mutation(vector<int>& order, double mutationRate)
 {
 	// On tente autant de mutation que le nombre de villes
 	int nbOfCities = order.size();
@@ -113,12 +113,12 @@ void nextGeneration(vector<DNA>& population)
 	// Pour chaque population, ...
 	for (int i = 0; i < population.size(); i++) {
 		// ... on récupère deux ordres, ...
-		vector<int> orderA = select(population);
-		vector<int> orderB = select(population);
+		vector<int> orderA = selection(population);
+		vector<int> orderB = selection(population);
 		// ... on les combine en un nouveau, ...
 		vector<int> order = crossover(orderA, orderB);
 		// ... puis on tente de le muter
-		mutate(order, 0.01);
+		mutation(order, 0.01);
 		newPopulation[i] = DNA(order);
 	}
 
