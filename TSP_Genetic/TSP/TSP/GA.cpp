@@ -21,6 +21,8 @@ vector<int> selection(vector<DNA>& population)
 	// Valeur aléatoire entre 0 et 1
 	double r = ((double)rand() / (RAND_MAX));
 
+	// On cherche le dernier individu qui, grâce à sa valeur de fitness accumulée,
+	// rendra la valeur aléatoire négative ou nulle
 	int index = 0;
 	while (r >= 0.0 && index != population.size()) {
 		r -= population[index].fitness;
@@ -86,7 +88,7 @@ void calculateFitness(vector<DNA>& population)
 		// ... puis on affecte à la popuplation une valeur de fitness sera inversement 
 		// proportionnelle à la distance, et la mise à la puissance élévée permet 
 		// d'affecter une valeur de fitness très faible aux distances de parcours élévée
-		// qui auront moins de chances d'être séléctionnées dans la méthode select()
+		// qui auront moins de chances d'être séléctionnées dans la méthode selection()
 		population[i].fitness = 1.0 / (pow(dist, 8) + 1);
 	}
 }
