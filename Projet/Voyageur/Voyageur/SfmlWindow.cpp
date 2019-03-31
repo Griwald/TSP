@@ -36,10 +36,10 @@ void SfmlWindow::showWindow()
 			float posP2x = this->shapes[(this->order[i+1])].getPosition().x;
 			float posP2y = this->shapes[(this->order[i+1])].getPosition().y;
 
-			sf::Vertex line[] =
+			Vertex line[] =
 			{
-				sf::Vertex(sf::Vector2f(posP1x, posP1y)),
-				sf::Vertex(sf::Vector2f(posP2x , posP2y))
+				Vertex(Vector2f(posP1x, posP1y)),
+				Vertex(Vector2f(posP2x , posP2y))
 			};
 			
 			if (i == 0) {

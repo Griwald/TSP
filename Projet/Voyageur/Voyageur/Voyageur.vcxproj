@@ -140,6 +140,8 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="City.cpp" />
+    <ClCompile Include="DNA.cpp" />
+    <ClCompile Include="GA.cpp" />
     <ClCompile Include="main.cpp">
       <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">D:\Documents DD\Programmation\Algorithme\TSP\Projet\Voyageur\SFML\include</AdditionalIncludeDirectories>
       <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">D:\Documents DD\Programmation\Algorithme\TSP\Projet\Voyageur\SFML\include</AdditionalIncludeDirectories>
@@ -152,6 +154,8 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="City.h" />
+    <ClInclude Include="DNA.h" />
+    <ClInclude Include="GA.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="SfmlWindow.h" />
   </ItemGroup>

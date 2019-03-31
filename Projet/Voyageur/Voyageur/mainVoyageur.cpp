@@ -22,24 +22,15 @@ int calcTotalDist(vector<City>& cities, vector<int>& order)
 	return totalDist;
 }
 
+/* Fonction objectif : 
+ * paramétrage des coordonnées des villes aléatoirement
+ */
 
-int main()
-{
+void settingCitiesRandom(vector<City> &cities, vector<int> &order, int &nbOfCities) {
+
 	int width = 200;	// Largeur de l'espace de placement des villes
 	int height = 200;	// Hauteur de l'espace de placement des villes
-	int nbOfCities = 7; // Nombre de villes placées dans l'espace
-
-	vector<City> cities(nbOfCities); // Structure qui contient les villes
-	vector<int> order(nbOfCities);	 // Structure qui contient l'ordre de parcours des villes
-
-
-	// ================================================================================
-	// INITIALISATION 
-	// ================================================================================ 
-
-	// Initialisation du germe de géneration aléatoire
-	srand(time(NULL));
-
+	
 	// Création des villes
 	for (int i = 0; i < nbOfCities; i++) {
 		int posX = rand() % width;
@@ -49,6 +40,40 @@ int main()
 		// Remplissage de la stucture d'ordre de parcours
 		order[i] = i;
 	}
+}
+
+/* Fonction objectif :
+ * paramétrage des coordonnées des villes aléatoirement
+ */
+
+void settingCitiesManual(vector<City> &cities, vector<int> &order, int &nbOfCities) {
+
+	int width = 200;	// Largeur de l'espace de placement des villes
+	int height = 200;	// Hauteur de l'espace de placement des villes
+
+	// Création des villes
+	for (int i = 0; i < nbOfCities; i++) {
+		cout << "Coordonnees de la ville (maximum 200)" << i << " : ( x puis y ) " << endl;
+		int tempX, tempY;
+		cin >> tempX;
+		cin >> tempY;
+		cities[i] = City(i, tempX, tempY);
+
+		// Remplissage de la stucture d'ordre de parcours
+		order[i] = i;
+	}
+}
+
+
+void lexicographicMethod(vector <City> &cities, vector<int> &order) {
+
+	// ================================================================================
+	// INITIALISATION 
+	// ================================================================================ 
+
+	// Initialisation du germe de géneration aléatoire
+	srand(time(NULL));
+
 
 	// Initialisation de la meilleure distance de parcours et du meilleur ordre
 	unsigned int bestDist = UINT_MAX;
@@ -141,8 +166,81 @@ int main()
 	SfmlWindow mainWindow;
 
 	mainWindow.createWindow();
-	mainWindow.drawCity(cities , bestOrder);
+	mainWindow.drawCity(cities, bestOrder);
 	mainWindow.showWindow();
+
+}
+
+int main()
+{
+	int choix;
+	int width = 200;	// Largeur de l'espace de placement des villes
+	int height = 200;	// Hauteur de l'espace de placement des villes
+	int nbOfCities/* = 10*/; // Nombre de villes placées dans l'espace
+	
+
+
+
+	cout << "Resolution du voyageur de commerce. \nAlgorithmique - 8INF870 \nTravail par Dylan DEMANGE et Nicolas MARIN \nUtilisation d'une methode exacte et d'une methode approchée" << endl << endl;
+	
+	cout << "Veuillez choisir le nombre de villes : " << endl;
+	cin >> choix;
+	nbOfCities = choix;
+
+	vector<City> cities(nbOfCities); // Structure qui contient les villes
+	vector<int> order(nbOfCities);	 // Structure qui contient l'ordre de parcours des villes
+
+	cout << "Nombre de villes : " << choix << endl << endl;
+	cout << "Ville place aleatoirement (choix 1) ou predefini (choix 2) : " << endl;
+	
+	cout << "Entrez votre choix : " << endl; 
+	cin >> choix;
+
+	switch (choix)
+	{
+	case 1:
+		settingCitiesRandom(cities, order,nbOfCities);
+		break;
+	case 2:
+		settingCitiesManual(cities, order, nbOfCities);
+		break;
+	default:
+		cout << "Choix invalide, sélection aléatoire" << endl;
+		settingCitiesRandom(cities, order, nbOfCities);
+		break;
+	}
+
+
+	cout << "Menu de choix des méthodes : " << endl;
+	cout << "   1 - Methode exacte" << endl;
+	cout << "   2 - Methode approchée : Algorithme génétique" << endl;
+	cout << "   3 - Utilisation des deux méthodes" << endl;
+	cout << "   4 - Quitter le programme" << endl << endl;
+
+	cout << "Entrez votre choix : " << endl;
+	
+	cin >> choix;
+	cout << "Choix : " << choix << endl << endl;
+
+
+
+	switch (choix)
+	{
+		case 1:
+			lexicographicMethod(cities, order);
+			break;
+		case 2:
+			break;
+		case 3:
+			break;
+		case 4:
+			break;
+		default:
+			cout << "Choix Invalide !" << endl;
+			break;
+	}
+	cout << "le choix : " <<choix;
+	   	 	
 
 	cout << "Fin de programme " << endl;
 	return 0;
