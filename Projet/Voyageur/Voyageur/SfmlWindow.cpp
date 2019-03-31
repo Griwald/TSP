@@ -3,6 +3,7 @@
 //#include <SFML/Graphics.hpp> // sf::librairie graphique SFML
 
 using namespace sf;
+using namespace std;
 
 void SfmlWindow::createWindow()
 {
@@ -11,6 +12,7 @@ void SfmlWindow::createWindow()
 
 void SfmlWindow::showWindow()
 {
+	cout << "Fermez la fenetre pour continuer !!!!" << endl;
 	while (window.isOpen())
 	{
 		Event event;

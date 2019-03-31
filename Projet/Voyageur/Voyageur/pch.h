@@ -16,7 +16,7 @@
 #include <ctime>    // std::time
 #include <chrono>	// std::chrono::
 #include <climits>  // UINT_MAX
-#include <sstream> // std::stringstream
+#include <algorithm> // std::random_shuffle
 
 #include <SFML/Graphics.hpp> // sf::librairie graphique SFML
 // TODO: Ajoutez les en-têtes à précompiler ici

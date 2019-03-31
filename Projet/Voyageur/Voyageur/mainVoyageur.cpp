@@ -4,6 +4,8 @@
 #include "pch.h"
 #include "City.h"
 #include "SfmlWindow.h"
+#include "GA.h"
+#include "DNA.h"
 
 using namespace std;
 
@@ -11,7 +13,7 @@ using namespace std;
 /* Fonction objectif :
  * Retourne la distance totale entre les villes parcourues dans l'ordre donné
  */
-int calcTotalDist(vector<City>& cities, vector<int>& order)
+int calcTotalDistLexico(vector<City>& cities, vector<int>& order)
 {
 	int totalDist = 0;
 	for (int i = 0; i < order.size() - 1; i++) {
@@ -22,10 +24,11 @@ int calcTotalDist(vector<City>& cities, vector<int>& order)
 	return totalDist;
 }
 
+
+
 /* Fonction objectif : 
  * paramétrage des coordonnées des villes aléatoirement
  */
-
 void settingCitiesRandom(vector<City> &cities, vector<int> &order, int &nbOfCities) {
 
 	int width = 200;	// Largeur de l'espace de placement des villes
@@ -42,10 +45,11 @@ void settingCitiesRandom(vector<City> &cities, vector<int> &order, int &nbOfCiti
 	}
 }
 
+
+
 /* Fonction objectif :
  * paramétrage des coordonnées des villes aléatoirement
  */
-
 void settingCitiesManual(vector<City> &cities, vector<int> &order, int &nbOfCities) {
 
 	int width = 200;	// Largeur de l'espace de placement des villes
@@ -65,6 +69,10 @@ void settingCitiesManual(vector<City> &cities, vector<int> &order, int &nbOfCiti
 }
 
 
+
+/* Fonction objectif :
+ * donne l'ordre de la ville à l'aide de la solution lexicographique
+ */
 void lexicographicMethod(vector <City> &cities, vector<int> &order) {
 
 	// ================================================================================
@@ -101,7 +109,7 @@ void lexicographicMethod(vector <City> &cities, vector<int> &order) {
 		// ex: ne pas considérer {3,2,1} qui traite le même chemin que {1,2,3}
 		if (order[0] < order[order.size() - 1]) {
 			// On calcule la distance de parcours total avec l'ordre actuel
-			int dist = calcTotalDist(cities, order);
+			int dist = calcTotalDistLexico(cities, order);
 			// Si on trouve une meilleure distance de parcours, on l'enregistre ainsi que son ordre de parcours associé
 			if (dist < bestDist) {
 				bestDist = dist;
@@ -171,6 +179,109 @@ void lexicographicMethod(vector <City> &cities, vector<int> &order) {
 
 }
 
+
+/* Fonction objectif :
+ * donne l'ordre de la ville à l'aide de la solution genetique
+ */
+void geneticMethod(vector <City> &cities, vector<int> &order) {
+
+	const int nbOfPopulation = 200;	 // Taille de la population
+	const int nbOfGenerations = 50;	 // Nombre de générations
+
+	vector<DNA> population; // Structure qui contient la population
+
+
+	// ================================================================================
+	// INITIALISATION 
+	// ================================================================================ 
+
+	// Initialisation du germe de génération aléatoire
+	srand(time(NULL));
+
+	// Initialisation de la meilleure distance de parcours et du meilleur ordre
+	unsigned int bestDist = UINT_MAX;
+	vector<int> bestOrder = order;
+
+	// Création de la population
+	for (int i = 0; i < nbOfPopulation; i++) {
+		// Ordre de parcours aléatoire pour la population
+		vector<int> shuffleOrder(order);
+		random_shuffle(shuffleOrder.begin(), shuffleOrder.end());
+
+		// Initialisation de la population
+		population.push_back(DNA(shuffleOrder));
+	}
+
+
+	// Affichage de la position des villes
+	cout << "Position des villes :" << endl;
+	for (City &city : cities) {
+		cout << city << endl;
+	}
+	cout << endl;
+
+
+	// ================================================================================
+	// ALGORITHMES GENETIQUES 
+	// ================================================================================ 
+
+	// Début du chronomètre
+	auto start = chrono::system_clock::now();
+
+	int count = 0;
+	while (count != nbOfGenerations) {
+
+		// Application des algorithmes génétiques
+		calculateFitness(population, cities);
+		normalizeFitness(population);
+		nextGeneration(population);
+
+		// Recherche du meilleur ordre de parcours
+		for (int i = 0; i < population.size(); i++) {
+			vector<int> currentOrder = population[i].order;
+			int dist = calcTotalDist(cities, currentOrder);
+			if (dist < bestDist) {
+				bestDist = dist;
+				bestOrder = currentOrder;
+			}
+		}
+
+		count++;
+	}
+
+	// Fin du chronomètre
+	auto end = chrono::system_clock::now();
+
+
+	// ================================================================================
+	// AFFICHAGE DU RESULTAT 
+	// ================================================================================ 
+
+	// Affichage du meilleur ordre de parcours
+	cout << "Meilleur ordre de parcours :" << endl;
+	for (int &index : bestOrder) {
+		cout << index << " ";
+	}
+	cout << endl << endl;
+
+	// Affichage de la meilleure distance
+	cout << "Distance parcourue pour cet ordre (au carre) : " << bestDist << endl;
+
+	// Affichage de la durée d'exécution
+	chrono::duration<double> elapsed_seconds = end - start;
+	cout << "Duree du programme : " << elapsed_seconds.count() << "s" << endl;
+
+	SfmlWindow mainWindow;
+
+	mainWindow.createWindow();
+	mainWindow.drawCity(cities, bestOrder);
+	mainWindow.showWindow();
+
+}
+
+
+
+
 int main()
 {
 	int choix;
@@ -213,8 +324,8 @@ int main()
 
 	cout << "Menu de choix des méthodes : " << endl;
 	cout << "   1 - Methode exacte" << endl;
-	cout << "   2 - Methode approchée : Algorithme génétique" << endl;
-	cout << "   3 - Utilisation des deux méthodes" << endl;
+	cout << "   2 - Methode approchee : Algorithme genetique" << endl;
+	cout << "   3 - Utilisation des deux methodes" << endl;
 	cout << "   4 - Quitter le programme" << endl << endl;
 
 	cout << "Entrez votre choix : " << endl;
@@ -227,11 +338,17 @@ int main()
 	switch (choix)
 	{
 		case 1:
+			cout << "Methode exacte" << endl;
 			lexicographicMethod(cities, order);
 			break;
 		case 2:
+			cout << "Methode approchee : Algorithme genetique" << endl;
+			geneticMethod(cities, order);
 			break;
 		case 3:
+			cout << "Utilisation des deux methodes" << endl;	
+			lexicographicMethod(cities, order);
+			geneticMethod(cities, order);
 			break;
 		case 4:
 			break;
@@ -239,7 +356,7 @@ int main()
 			cout << "Choix Invalide !" << endl;
 			break;
 	}
-	cout << "le choix : " <<choix;
+	cout << "Votre choix : " << choix << endl;;
 	   	 	
 
 	cout << "Fin de programme " << endl;

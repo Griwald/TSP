@@ -1,5 +1,6 @@
 #pragma once
 #include <iostream> // std::ostream
+#include <vector>   // std::vector
 
 
 /**
@@ -19,8 +20,8 @@ public:
 	City(int index, int x = 0, int y = 0);
 
 
-	/* Retourne la distance au carré entre deux villes
-	 * On évite le calcul de la racine pour gagner en vitesse d'exécution
+	/* Retourne la distance au carré entre deux villes 
+	 * On évite le calcul de la racine pour gagner en vitesse d'exécution 
 	 */
 	static int distSq(City& a, City& b);
 
@@ -32,3 +33,7 @@ public:
 		return os;
 	}
 };
+
+
+// Structure qui contient les villes
+extern std::vector<City> cities;
