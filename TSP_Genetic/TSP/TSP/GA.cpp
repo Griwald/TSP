@@ -16,11 +16,13 @@ int calcTotalDist(vector<City>& cities, vector<int>& order)
 }
 
 
-vector<int> select(vector<DNA>& population)
+vector<int> selection(vector<DNA>& population)
 {
 	// Valeur al�atoire entre 0 et 1
 	double r = ((double)rand() / (RAND_MAX));
 
+	// On cherche le dernier individu qui, gr�ce � sa valeur de fitness accumul�e,
+	// rendra la valeur al�atoire n�gative ou nulle
 	int index = 0;
 	while (r >= 0.0 && index != population.size()) {
 		r -= population[index].fitness;
@@ -59,7 +61,7 @@ vector<int> crossover(vector<int>& orderA, vector<int>& orderB)
 	return newOrder;
 }
 
-void mutate(vector<int>& order, double mutationRate)
+void mutation(vector<int>& order, double mutationRate)
 {
 	// On tente autant de mutation que le nombre de villes
 	int nbOfCities = order.size();
@@ -89,7 +91,7 @@ void calculateFitness(vector<DNA>& population)
 		// ... puis on affecte � la popuplation une valeur de fitness sera inversement 
 		// proportionnelle � la distance, et la mise � la puissance �l�v�e permet 
 		// d'affecter une valeur de fitness tr�s faible aux distances de parcours �l�v�e
-		// qui auront moins de chances d'�tre s�l�ctionn�es dans la m�thode select()
+		// qui auront moins de chances d'�tre s�l�ctionn�es dans la m�thode selection()
 		population[i].fitness = 1.0 / (pow(dist, 8) + 1);
 	}
 }
@@ -116,12 +118,12 @@ void nextGeneration(vector<DNA>& population)
 	// Pour chaque population, ...
 	for (int i = 0; i < population.size(); i++) {
 		// ... on r�cup�re deux ordres, ...
-		vector<int> orderA = select(population);
-		vector<int> orderB = select(population);
+		vector<int> orderA = selection(population);
+		vector<int> orderB = selection(population);
 		// ... on les combine en un nouveau, ...
 		vector<int> order = crossover(orderA, orderB);
 		// ... puis on tente de le muter
-		mutate(order, 0.01);
+		mutation(order, 0.01);
 		newPopulation[i] = DNA(order);
 	}
 
