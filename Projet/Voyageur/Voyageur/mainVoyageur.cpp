@@ -360,5 +360,7 @@ int main()
 	   	 	
 
 	cout << "Fin de programme " << endl;
+
+	while (true);
 	return 0;
 }
