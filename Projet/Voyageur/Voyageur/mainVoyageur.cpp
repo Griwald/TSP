@@ -292,7 +292,7 @@ int main()
 
 
 
-	cout << "Resolution du voyageur de commerce. \nAlgorithmique - 8INF870 \nTravail par Dylan DEMANGE et Nicolas MARIN \nUtilisation d'une methode exacte et d'une methode approchée" << endl << endl;
+	cout << "Resolution du voyageur de commerce. \nAlgorithmique - 8INF870 \nTravail par Dylan DEMANGE, Jean DUCAMP et Nicolas MARIN \nUtilisation d'une methode exacte et d'une methode approchée" << endl << endl;
 	
 	cout << "Veuillez choisir le nombre de villes : " << endl;
 	cin >> choix;
@@ -322,7 +322,7 @@ int main()
 	}
 
 
-	cout << "Menu de choix des méthodes : " << endl;
+	cout << "Menu de choix des methodes : " << endl;
 	cout << "   1 - Methode exacte" << endl;
 	cout << "   2 - Methode approchee : Algorithme genetique" << endl;
 	cout << "   3 - Utilisation des deux methodes" << endl;
@@ -348,6 +348,10 @@ int main()
 		case 3:
 			cout << "Utilisation des deux methodes" << endl;	
 			lexicographicMethod(cities, order);
+			for (int i = 0; i < nbOfCities; i++) {
+				// Remplissage de la stucture d'ordre de parcours
+				order[i] = i;
+			}
 			geneticMethod(cities, order);
 			break;
 		case 4:

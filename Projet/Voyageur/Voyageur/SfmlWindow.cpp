@@ -12,7 +12,7 @@ void SfmlWindow::createWindow()
 
 void SfmlWindow::showWindow()
 {
-	cout << "Fermez la fenetre pour continuer !!!!" << endl;
+	cout << "Fermez la fenetre du graphe pour continuer !!!!" << endl;
 	while (window.isOpen())
 	{
 		Event event;
